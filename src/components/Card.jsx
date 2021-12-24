@@ -5,17 +5,18 @@ export const Card = ({card, shape, game}) => {
   const [handledShape, setHandledShape] = useState(card.card.shape)
 
   useEffect(() => {
-    if(card.card.shape.form == '') setHandledShape(null) 
+    if(card?.card?.shape?.form == '') setHandledShape(null) 
   }, [card])
 
   const imgSrc = (url) => {
     return `/src/pictures/${url}.png`
   }
 
-  const handleShape = () => {
+  const handleClick = () => {
     if(shape.shape == null) {
-      if (card.card.shape.form == '' || !showPossibleMoves()) return
-      shape.setShape(card.card.shape)
+      if (!showPossibleMoves()) return
+      shape.setShape(card.card.shape || "empty")
+      card.card.shape = card.card.shape.form || "empty"
       card.card.selected = true
     } else {
       if(shape.shape == card.card.shape) {
@@ -26,7 +27,7 @@ export const Card = ({card, shape, game}) => {
         card.card.shape = shape.shape
         setHandledShape(shape.shape)
         shape.setShape(null)
-        shape.removeSelectedShape()
+        shape.removeSelectedShape(card)
       }
     }
   }
@@ -41,7 +42,7 @@ export const Card = ({card, shape, game}) => {
   }
 
   return(
-    <div className={`card ${card.card.highlighted}`} onClick={() => handleShape()}>     
+    <div className={`card ${card.card.highlighted}`} onClick={() => handleClick()}>     
       <div>
         <div className={`value ${card.card.color}`}>
           {card.card.value}
