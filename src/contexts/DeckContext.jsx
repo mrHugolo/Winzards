@@ -11,14 +11,34 @@ export default function DeckProvider(props) {
     const emotions = ["Sad", "Average", "Powerfull"]
     let cards = []
 
+    const tempForms = ["square", "circle"]
+    const tempColors = ["green", "red"]
+
     for(let i = 0; i < 55; i++) {
       let v = i % 11 + 1
+      let r = Math.floor(Math.random() * 55)
+      if (i != r) r = Math.floor(Math.random() * 55)
+      if (i != r) r = Math.floor(Math.random() * 55)
+      if (i != r) r = Math.floor(Math.random() * 55)
+      if (i != r) r = Math.floor(Math.random() * 55)
+      if (i != r) r = Math.floor(Math.random() * 55)
+      if (i != r) r = Math.floor(Math.random() * 55)
+      if (i != r) r = Math.floor(Math.random() * 55)
+      if (i != r) r = Math.floor(Math.random() * 55)
+      if (i != r) r = Math.floor(Math.random() * 55)
+      if (i != r) r = Math.floor(Math.random() * 55)
+      if (i != r) r = Math.floor(Math.random() * 55)
+      if (i != r) r = Math.floor(Math.random() * 55)
       cards.push({
         id: i,
         name: names[i % 5],
         color: colors[i % 5],
         emotion: emotions[v <= 3 ? 0 : v >= 9 ? 2 : 1],
-        value: v
+        value: v,
+        shape: {
+          form: (i == r ? tempForms[i % 2] : ''),
+          color: (i == r ? tempColors[i % 2] : '')
+        }
       })
     }
     setDeck55(shuffle(cards));
