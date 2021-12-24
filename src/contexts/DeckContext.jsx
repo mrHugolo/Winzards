@@ -11,8 +11,8 @@ export default function DeckProvider(props) {
     const emotions = ["Sad", "Average", "Powerfull"]
     let cards = []
 
-    const tempForms = ["square", "circle"]
-    const tempColors = ["green", "red"]
+    const tempForms = ["square", "circle", "triangle"]
+    const tempColors = ["green", "red", "blue"]
 
     for(let i = 0; i < 55; i++) {
       let v = i % 11 + 1
@@ -30,14 +30,13 @@ export default function DeckProvider(props) {
       if (i != r) r = Math.floor(Math.random() * 55)
       if (i != r) r = Math.floor(Math.random() * 55)
       cards.push({
-        id: i,
         name: names[i % 5],
         color: colors[i % 5],
         emotion: emotions[v <= 3 ? 0 : v >= 9 ? 2 : 1],
         value: v,
         shape: {
-          form: (i == r ? tempForms[i % 2] : ''),
-          color: (i == r ? tempColors[i % 2] : '')
+          form: (i == r ? tempForms[i % 3] : ''),
+          color: (i == r ? tempColors[2] : '')
         }
       })
     }

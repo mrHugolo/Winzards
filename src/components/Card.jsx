@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import {Shape} from "../components/Shape"
 
-export const Card = ({card, shape}) => {
+export const Card = ({card, shape, game}) => {
   const [handledShape, setHandledShape] = useState(card.card.shape)
 
   useEffect(() => {
@@ -14,15 +14,15 @@ export const Card = ({card, shape}) => {
 
   const handleShape = () => {
     if(shape.shape == null) {
-      if(card.card.shape.form == '') return
+      if (card.card.shape.form == '' || !showPossibleMoves()) return
       shape.setShape(card.card.shape)
       card.card.selected = true
-      // showPossibleMoves()
     } else {
       if(shape.shape == card.card.shape) {
         shape.setShape(null)
         card.card.selected = null
-      } else if(card.card.shape.form == '') {
+        shape.removeSelectedShape()
+      } else if(card.card.highlighted) {
         card.card.shape = shape.shape
         setHandledShape(shape.shape)
         shape.setShape(null)
@@ -31,8 +31,17 @@ export const Card = ({card, shape}) => {
     }
   }
 
+  const showPossibleMoves = () => {
+    switch(game.game) {
+      case "Solitaire": {
+        return game.showPossibleMoves(card.card)
+        break;
+      }
+    }
+  }
+
   return(
-    <div className="card" onClick={() => handleShape()}>     
+    <div className={`card ${card.card.highlighted}`} onClick={() => handleShape()}>     
       <div>
         <div className={`value ${card.card.color}`}>
           {card.card.value}
@@ -41,7 +50,7 @@ export const Card = ({card, shape}) => {
           <Shape shape={handledShape}/>
           <img src={imgSrc(`${card.card.name}-${card.card.emotion}`)} />
         </div>
-        <div className={`value upSideDown ${card.card.color}`}>
+        <div className={`value right ${card.card.color}`}>
           {card.card.value}
         </div>
       </div>         
