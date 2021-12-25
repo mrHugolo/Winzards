@@ -9,7 +9,8 @@ export const Solitaire = () => {
   const [deck, setDeck] = useState([])
   const [bag, setBag] = useState([])
   const [shape, setShape] = useState(null)
-  const [turn, setTurn] = useState(1)
+  const [turn, setTurn] = useState(0)
+  const [newRound, setNewRound] = useState(null)
   const [points, setPoints] = useState(0)
 
   const buildBoard = (cards) => {
@@ -74,6 +75,32 @@ export const Solitaire = () => {
       form: '',
       color: ''
     }
+    if(c) {
+      setTurn(p => p + 1)
+      givePoints(card)
+    }
+  }
+
+  const givePoints = (card) => {
+    
+
+    if(turn == 2) {
+      addShape()
+    }
+  }
+
+  const addShape = () => {
+    const shape = bag.splice(0, 1)[0]
+    console.log('shape', shape)
+    let arr = deck.filter(c => c.shape.form == "" && c.emotion == "Average" && c.color == (shape.color.charAt(0).toUpperCase() + shape.color.slice(1)))
+    if(arr.length == 0) {
+      gameOver()
+      return
+    }
+    arr.forEach(it => {
+      it.highlighted = "highlighted"
+    })
+    setNewRound(shape)
   }
 
   const showPossibleMoves = (card) => {
@@ -86,7 +113,7 @@ export const Solitaire = () => {
         for(let nr = 0; nr < 49; nr++) indexes[nr] = nr
       }
       else if(card.emotion == "Average") {
-        indexes = [i-8, i-7, i-6, i-1, i+1, i+6, i+7, i+8]
+        indexes = indexesAround(i)
       }
       else if(card.emotion == "Sad") {
         const idx = card.id
@@ -110,13 +137,19 @@ export const Solitaire = () => {
       }
       else if(playerCard.emotion == "Average") {
         const i =  playerCard.id
-        indexes = [i - 8, i - 7, i - 6, i - 1, i + 1, i + 6, i + 7, i + 8, 2 * card.id - i]
+        indexes = indexesAround(i)
+        if(indexes.length == 8) indexes.push(2 * card.id - i)
       }
       else if(playerCard.emotion == "Sad") return
     }
     else if(card.shape.form == "") {
-      const i = card.id
-      indexes = [i - 8, i - 7, i - 6, i - 1, i + 1, i + 6, i + 7, i + 8]
+      if(card.emotion == "Powerfull") {
+        for (let nr = 0; nr < 49; nr++) indexes[nr] = nr
+      }
+      else if(card.emotion == "Average") {
+        const i = card.id
+      indexes = indexesAround(i)
+      }
     }
 
     arr = deck.filter(c => c.shape.form == "" && indexes.includes(c.id))
@@ -127,18 +160,41 @@ export const Solitaire = () => {
   }
 
   const findPlayerCard = (color, i) => {
-    const indexes = [i - 8, i - 7, i - 6, i - 1, i + 1, i + 6, i + 7, i + 8]
+    const indexes = indexesAround(i)
     return deck.filter(c => c.shape.color == color && c.color == (color.charAt(0).toUpperCase() + color.slice(1)) && c.shape.form == "triangle" && indexes.includes(c.id))[0]
   }
 
+  const indexesAround = (i) => {
+    let indexes = [i - 8, i - 7, i - 6, i - 1, i + 1, i + 6, i + 7, i + 8]
+    if (i % 7 == 0) indexes = [i - 7, i - 6, i + 1, i + 7, i + 8]
+    else if (i % 7 == 6) indexes = [i - 8, i - 7, i - 1, i + 6, i + 7]
+    return indexes
+  }
+
+  const gameOver = () => {
+    history.push("/")
+    alert('GameOver')
+  }
+
   return (
-    <div className="wrapper noSelect">
-      {deck.length == 49 && deck?.map(card => (
-        <div key={card.id}>
-          <Card card={{ card }} shape={{ setShape, shape, removeSelectedShape }} game={{ game: "Solitaire", showPossibleMoves}}
-         />
-        </div>
-      ))}
+    <div className="wrapper">
+      <div className="giga">
+        Moves: {turn}
+      </div>
+      <div className="board noSelect">
+        {deck.length == 49 && deck?.map(card => (
+          <div className="temp" key={card.id}>
+            <Card
+              card={{ card }}
+              shape={{ setShape, shape, removeSelectedShape }}
+              game={{ game: "Solitaire", showPossibleMoves, newRound, setNewRound, setTurn }}
+            />
+          </div>
+        ))}
+      </div>
+      <div className="giga">
+          Points: {points}
+      </div>
     </div>
   )
 }

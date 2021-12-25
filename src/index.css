@@ -1,3 +1,10 @@
+:root {
+  --b: 1px;
+  --m: 5px;
+  --height: calc((100vh - calc(17 * var(--m)))/7 - calc(2 * var(--b)));
+  --width: calc((100vw/3 - calc(17 * var(--m)))/7 - calc(2 * var(--b)));
+}
+
 body {
   margin: 0;
   background-color: wheat;
@@ -15,41 +22,52 @@ body {
 
 .wrapper {
   display: grid;
-  grid-template-columns: repeat(7, 205px);
+  grid-template-columns: calc(100vw/3) calc(100vw/3) calc(100vw/3);
+}
+
+.board { 
+  border: var(--m) solid transparent;
+  padding: var(--m);
+  border-image: url(src/pictures/border.svg) 20% round;
+
+  /* border: var(--m) solid red;
+  padding: var(--m); */
+  display: grid;
+  grid-template-columns: repeat(7, calc(var(--width) + calc(2 * (var(--m) + var(--b)))));
 }
 
 .card {
   border: solid 1px black;
   border-radius: 5px;
   background-color: white;
-  padding: 10px;
-  margin-bottom: 10px;
-  width: 175px;
-  height: 265.4px;  
+  padding: calc(var(--m)/2);
+  margin-bottom: var(--m);
+  height: var(--height);
+  width: var(--width);
+}
+.temp:nth-child(n+43) {
+  margin-bottom: calc(-1 * var(--m));
 }
 
 .highlighted {
   background-color: rgb(218, 141, 141);
 }
+.selected {
+  background-color: rgb(143, 226, 143);
+}
 
-.value {
+.value, .giga {
   font-family: 'Merienda', cursive;
-  font-size: 30px;
-  font-weight: 500;
-  text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 rgb(48, 70, 167), -1px 0 0 #000;
+  font-size: calc(var(--height) / 8);
+  text-shadow: 0.33px 0 0 #000, 0 -0.33px 0 #000, 0 0.33px 0 rgb(48, 70, 167), -0.33px 0 0 #000;
+}
+.giga {
+  text-align: center;
 }
 
 div.winzard img {
-  width: 175px;
-  height: 175px;
-}
-
-div.backside img {
-  width: 265.4px;
-  height: 70px;
-  margin-top: calc(50% + 27px);
-  margin-left: calc(-50% + 35px);
-  transform: rotate(90deg);
+  width: var(--width);
+  height: var(--width);
 }
 
 .winzard {
@@ -60,12 +78,12 @@ div.backside img {
   display: none;
   float: left;
   position: absolute;
-  left: calc(50% - 37.5px);
-  top: calc(50% - 37.5px);
+  height: calc(var(--width) / 2);
+  width: calc(var(--width) / 2);
+  left: calc(50% - calc(var(--width)/4));
+  top: calc(50% - calc(var(--width)/4));
   z-index: 1000;
-  height: 75px;
-  width: 75px;
-  border: solid black 2px;
+  border: solid black var(--b);
 }
 
 .square {
@@ -81,7 +99,8 @@ div.backside img {
   display: block;
   height: 100%;
   border-radius: 30% 30% 70% 70% / 60% 60% 70% 70%;
-  margin-top: -50px;
+  margin-top: calc(var(--height) / -10);
+  /* margin-top: 0; */
   transform: rotate(180deg);
 }
 

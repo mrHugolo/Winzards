@@ -13,11 +13,20 @@ export const Card = ({card, shape, game}) => {
   }
 
   const handleClick = () => {
+    if(game.newRound) {
+      if(!card.card.highlighted) return
+      card.card.shape = game.newRound
+      setHandledShape(game.newRound)
+      game.setNewRound(null)
+      shape.removeSelectedShape()
+      game.setTurn(0)
+      return
+    }
     if(shape.shape == null) {
       if (!showPossibleMoves()) return
       shape.setShape(card.card.shape || "empty")
-      card.card.shape = card.card.shape.form || "empty"
-      card.card.selected = true
+      if(card.card.shape.form == "") card.card.shape = "empty"
+      card.card.selected = "selected"
     } else {
       if(shape.shape == card.card.shape) {
         shape.setShape(null)
@@ -42,18 +51,16 @@ export const Card = ({card, shape, game}) => {
   }
 
   return(
-    <div className={`card ${card.card.highlighted}`} onClick={() => handleClick()}>     
-      <div>
-        <div className={`value ${card.card.color}`}>
-          {card.card.value}
-        </div>          
-        <div className="winzard">
-          <Shape shape={handledShape}/>
-          <img src={imgSrc(`${card.card.name}-${card.card.emotion}`)} />
-        </div>
-        <div className={`value right ${card.card.color}`}>
-          {card.card.value}
-        </div>
+    <div className={`card ${card.card.highlighted} ${card.card.selected}`} onClick={() => handleClick()}>     
+      <div className={`value ${card.card.color}`}>
+        {card.card.value}
+      </div>
+      <div className="winzard">
+        <Shape shape={handledShape} />
+        <img src={imgSrc(`${card.card.name}-${card.card.emotion}`)} />
+      </div>
+      <div className={`value right ${card.card.color}`}>
+        {card.card.value}
       </div>         
     </div>
   )
