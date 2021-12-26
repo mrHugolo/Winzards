@@ -16,9 +16,10 @@ export const Card = ({card, shape, game}) => {
     if(game.newRound) {
       if(!card.card.highlighted) return
       card.card.shape = game.newRound
+      card.card.selected = "selected"
       setHandledShape(game.newRound)
       game.setNewRound(null)
-      shape.removeSelectedShape()
+      shape.removeSelectedShape(card)
       game.setTurn(0)
       return
     }
