@@ -93,7 +93,7 @@ export const Solitaire = () => {
   }
 
   const givePoints = (obj) => {
-    if (turn == 2) {
+    if (turn >= 2) {
       addShape()
     }
     if (!obj.form || obj.form == "triangle") return
