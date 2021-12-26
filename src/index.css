@@ -5,6 +5,24 @@
   --width: calc((100vw/3 - calc(17 * var(--m)))/7 - calc(2 * var(--b)));
 }
 
+@media screen and (max-width: 1400px) {
+  :root {
+  --b: 1px;
+  --m: 5px;
+  --height: calc((100vh - calc(17 * var(--m)))/7 - calc(2 * var(--b)));
+  --width: calc((50vw - calc(17 * var(--m)))/7 - calc(2 * var(--b)));
+  }
+}
+
+@media screen and (max-width: 800px) {
+  :root {
+  --b: 1px;
+  --m: 5px;
+  --height: calc((100vh - 100px - calc(17 * var(--m)))/7 - calc(2 * var(--b)));
+  --width: calc((80vw - calc(17 * var(--m)))/7 - calc(2 * var(--b)));
+  }
+}
+
 body {
   margin: 0;
   background-color: wheat;
@@ -24,6 +42,24 @@ body {
   display: grid;
   grid-template-columns: calc(100vw/3) calc(100vw/3) calc(100vw/3);
 }
+@media screen and (max-width: 1400px) {
+  .wrapper {
+    display: grid;
+    grid-template-columns: calc(25vw) calc(50vw) calc(25vw);
+  } 
+}
+@media screen and (max-width: 800px) {
+  .wrapper {
+    display: grid;
+    grid-template-columns: 10vw 40vw 40vw 10vw;
+    grid-template-rows: 50px auto 50px;
+    grid-template-areas: 
+      "header header header header"
+      "side board board side"
+      "side footer footer side"
+    ;
+  } 
+}
 
 .board { 
   border: var(--m) solid transparent;
@@ -34,6 +70,23 @@ body {
   padding: var(--m); */
   display: grid;
   grid-template-columns: repeat(7, calc(var(--width) + calc(2 * (var(--m) + var(--b)))));
+}
+@media screen and (max-width: 800px) {
+  .board { 
+  grid-column-start: 2;
+  grid-column-end: span 1;
+  grid-row-start: 2;
+  grid-row-end: span 1;
+
+  border: var(--m) solid transparent;
+  padding: var(--m);
+  border-image: url(src/pictures/border.svg) 20% round;
+
+  /* border: var(--m) solid red;
+  padding: var(--m); */
+  display: grid;
+  grid-template-columns: repeat(7, calc(var(--width) + calc(2 * (var(--m) + var(--b)))));
+}
 }
 
 .card {
@@ -64,10 +117,32 @@ body {
 .giga {
   text-align: center;
 }
+@media screen and (max-width: 800px) {
+  .giga {
+    text-align: center;
+  }
+  .giga:nth-child(2) {
+    color: red;
+    grid-column-start: 2;
+    grid-column-end: span 1;
+    grid-row-start: 1;
+    grid-row-end: span 1;
+  }
+  .giga:nth-child(1) {
+    color: green;
+    grid-column-start: 3;
+    grid-column-end: span 1;
+    grid-row-start: 1;
+    grid-row-end: span 1;
+  }
+}
 
 div.winzard img {
-  width: var(--width);
-  height: var(--width);
+  display: block;
+  width: min(calc(var(--height) * 0.6), var(--width));
+  height: min(calc(var(--height) * 0.6), var(--width));
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .winzard {
@@ -75,13 +150,14 @@ div.winzard img {
 }
 
 .shape {
+  --hw: calc(var(--width) / 2);
   display: none;
   float: left;
   position: absolute;
-  height: calc(var(--width) / 2);
-  width: calc(var(--width) / 2);
-  left: calc(50% - calc(var(--width)/4));
-  top: calc(50% - calc(var(--width)/4));
+  height: var(--hw);
+  width: var(--hw);
+  left: calc(var(--hw)/2);
+  top: calc(var(--hw)/2);
   z-index: 1000;
   border: solid black var(--b);
 }
@@ -100,7 +176,6 @@ div.winzard img {
   height: 100%;
   border-radius: 30% 30% 70% 70% / 60% 60% 70% 70%;
   margin-top: calc(var(--height) / -10);
-  /* margin-top: 0; */
   transform: rotate(180deg);
 }
 
