@@ -29,9 +29,10 @@ export const Card = ({card, shape, game}) => {
       if(card.card.shape.form == "") card.card.shape = "empty"
       card.card.selected = "selected"
     } else {
-      if(shape.shape == card.card.shape) {
+      if((shape.shape == card.card.shape) || (shape.shape.form == "" && card.card.shape == "empty")) {
         shape.setShape(null)
         card.card.selected = null
+        card.card.shape = card.card.shape == "empty" ? { form: '', color: '' } : card.card.shape
         shape.removeSelectedShape()
       } else if(card.card.highlighted) {
         card.card.shape = shape.shape
