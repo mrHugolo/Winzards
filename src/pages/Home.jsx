@@ -6,7 +6,7 @@ export const Home = () => {
 
   return (
     <div>
-      <h1 onClick={() => history.push("/solitaire")}>Solitaire</h1>
+      <h1 className="pointer" onClick={() => history.push("/solitaire")}>Solitaire</h1>
     </div>
   )
 }
