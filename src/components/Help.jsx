@@ -17,7 +17,7 @@ export const Help = ({ game }) => {
 
   return (
     <div className="center">
-      <span className="pointer" onClick={() => flipVisibility("Help")}>Shape:</span><br />
+      <span className="pointer hide1400" onClick={() => flipVisibility("Help")}>Shape:</span><br />
       <div className="Help box">
         <span>{text}</span>
       </div>

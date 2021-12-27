@@ -45,6 +45,12 @@ body {
   cursor: pointer;
 }
 
+@media screen and (max-width: 1400px) {
+  .hide1400 {
+    display: none;
+  }
+}
+
 .wrapper {
   display: grid;
   grid-template-columns: calc(100vw/3) calc(100vw/3) calc(100vw/3);
