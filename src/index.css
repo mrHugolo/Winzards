@@ -3,6 +3,8 @@
   --m: 5px;
   --height: calc((100vh - calc(17 * var(--m)))/7 - calc(2 * var(--b)));
   --width: calc((100vw/3 - calc(17 * var(--m)))/7 - calc(2 * var(--b)));
+  --url: url(src/pictures/border.svg) 20% round;
+  --font: 'Merienda', cursive;
 }
 
 @media screen and (max-width: 1400px) {
@@ -18,14 +20,15 @@
   :root {
   --b: 1px;
   --m: 5px;
-  --height: calc((100vh - 100px - calc(17 * var(--m)))/7 - calc(2 * var(--b)));
-  --width: calc((80vw - calc(17 * var(--m)))/7 - calc(2 * var(--b)));
+  --height: min(var(--width)*2, calc((100vh - 100px - calc(17 * var(--m)))/7 - calc(2 * var(--b))));
+  --width: calc((100vw - calc(17 * var(--m)))/7 - calc(2 * var(--b)));
   }
 }
 
 body {
   margin: 0;
   background-color: wheat;
+  font-family: var(--font);
 }
 
 .noSelect {
@@ -38,9 +41,14 @@ body {
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 .wrapper {
   display: grid;
   grid-template-columns: calc(100vw/3) calc(100vw/3) calc(100vw/3);
+  grid-template-rows: 20vh 80vh;
 }
 @media screen and (max-width: 1400px) {
   .wrapper {
@@ -62,31 +70,46 @@ body {
 }
 
 .board { 
+  grid-column-start: 2;
+  grid-column-end: span 1;
+  grid-row-start: 1;
+  grid-row-end: span 2;
+
   border: var(--m) solid transparent;
   padding: var(--m);
-  border-image: url(src/pictures/border.svg) 20% round;
+  border-image: var(--url);
 
-  /* border: var(--m) solid red;
-  padding: var(--m); */
   display: grid;
   grid-template-columns: repeat(7, calc(var(--width) + calc(2 * (var(--m) + var(--b)))));
 }
 @media screen and (max-width: 800px) {
   .board { 
-  grid-column-start: 2;
-  grid-column-end: span 1;
+  grid-column-start: 1;
+  grid-column-end: span 4;
   grid-row-start: 2;
-  grid-row-end: span 1;
-
-  border: var(--m) solid transparent;
-  padding: var(--m);
-  border-image: url(src/pictures/border.svg) 20% round;
-
-  /* border: var(--m) solid red;
-  padding: var(--m); */
-  display: grid;
-  grid-template-columns: repeat(7, calc(var(--width) + calc(2 * (var(--m) + var(--b)))));
+  grid-row-end: span 2;
 }
+}
+
+.box {
+  text-align: center;
+  margin: auto;
+  border: var(--m) solid transparent;
+  border-image: var(--url);
+  max-width: 25vw;
+}
+@media screen and (max-width: 1400px) {
+.box {
+  display: none; 
+}
+}
+
+.center {
+  text-align: center;
+}
+
+.hide {
+  display: none;
 }
 
 .card {
@@ -110,7 +133,7 @@ body {
 }
 
 .value, .giga {
-  font-family: 'Merienda', cursive;
+  /* font-family: var(--font); */
   font-size: calc(var(--height) / 8);
   text-shadow: 0.33px 0 0 #000, 0 -0.33px 0 #000, 0 0.33px 0 rgb(48, 70, 167), -0.33px 0 0 #000;
 }
@@ -119,21 +142,17 @@ body {
 }
 @media screen and (max-width: 800px) {
   .giga {
-    text-align: center;
-  }
-  .giga:nth-child(2) {
-    color: red;
-    grid-column-start: 2;
+    margin: auto;
     grid-column-end: span 1;
     grid-row-start: 1;
     grid-row-end: span 1;
   }
   .giga:nth-child(1) {
-    color: green;
+    grid-column-start: 2;
+
+  }
+  .giga:nth-child(3) {
     grid-column-start: 3;
-    grid-column-end: span 1;
-    grid-row-start: 1;
-    grid-row-end: span 1;
   }
 }
 

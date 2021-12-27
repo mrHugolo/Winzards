@@ -2,6 +2,11 @@ import { useContext, useState, useEffect } from "react"
 import { DeckContext } from "../contexts/DeckContext"
 import { ShapeContext } from "../contexts/ShapeContext"
 import { Card } from "../components/Card"
+import { Rules } from "../components/Rules"
+import { Help } from "../components/Help"
+import { useHistory } from "react-router-dom"
+
+import { GameOver } from "../utils/GameOver"
 
 export const Solitaire = () => {
   const { deck55 } = useContext(DeckContext)
@@ -12,6 +17,7 @@ export const Solitaire = () => {
   const [turn, setTurn] = useState(0)
   const [newRound, setNewRound] = useState(null)
   const [points, setPoints] = useState(0)
+  const history = useHistory()
 
   const buildBoard = (cards) => {
     const idx = cards.indexOf(cards.filter(c => c.emotion == "Average")[0])
@@ -174,7 +180,7 @@ export const Solitaire = () => {
     const shape = bag.splice(0, 1)[0]
     let arr = deck.filter(c => c.shape.form == "" && c.emotion == "Average" && c.color == (shape.color.charAt(0).toUpperCase() + shape.color.slice(1)))
     if (arr.length == 0) {
-      gameOver()
+      GameOver(history, points)
       return
     }
     arr.forEach(it => {
@@ -258,19 +264,14 @@ export const Solitaire = () => {
     return indexes
   }
 
-  const gameOver = () => {
-    history.push("/")
-    alert('GameOver')
-  }
-
   return (
-    <div id="Solitaire" className="wrapper">
+    <div id="Solitaire" className="wrapper noSelect">
       <div className="giga">
         Moves: {turn}
       </div>
-      <div className="board noSelect">
+      <div className="board">
         {deck.length == 49 && deck?.map(card => (
-          <div className="temp" key={card.id}>
+          <div className="pointer" key={card.id}>
             <Card
               card={{ card }}
               shape={{ setShape, shape, removeSelectedShape }}
@@ -281,6 +282,12 @@ export const Solitaire = () => {
       </div>
       <div className="giga">
         Points: {points}
+      </div>
+      <div>
+        <Rules game={{name:"Solitaire"}}/>
+      </div>
+      <div>
+        <Help game={{ name: "Solitaire" }} />
       </div>
     </div>
   )
