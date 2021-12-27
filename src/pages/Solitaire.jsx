@@ -151,7 +151,9 @@ export const Solitaire = () => {
         isSmallArrayInAnyBigArray('-1:2,0:-1,0:-1,-1:0', tempArrD, tempArrFlipD) ||   
         isSmallArrayInAnyBigArray('0:-1,0:-1,-1:0,-1:0', tempArrD, tempArrFlipD) ||   
         isSmallArrayInAnyBigArray('0:-1,0:-1,0:-1,0:-1', tempArrD, tempArrFlipD) ||
-        isSmallArrayInAnyBigArray('-1:1,0:-1,0:-1,-1:1', tempArrD, tempArrFlipD)
+        isSmallArrayInAnyBigArray('-1:1,0:-1,0:-1,-1:1', tempArrD, tempArrFlipD) ||
+        isSmallArrayInAnyBigArray('0:-2,-1:2,0:-1,0:-1', tempArrD, tempArrFlipD) ||
+        isSmallArrayInAnyBigArray('0:-1,-1:1,-1:0,0:-1', tempArrD, tempArrFlipD)
     }
     else if (x == 4) {
       obj = isSmallArrayInAnyBigArray('0:-1,0:-1,0:-1', tempArrD, tempArrFlipD) ||
