@@ -40,8 +40,8 @@ body {
   cursor: pointer;
 }
 
-@media screen and (max-width: 1400px) {
-  .hide1400 {
+@media screen and (max-width: 1100px) {
+  .hide1100 {
     display: none;
   }
 }
@@ -97,7 +97,7 @@ body {
   border-image: var(--url);
   max-width: 25vw;
 }
-@media screen and (max-width: 1400px) {
+@media screen and (max-width: 1100px) {
 .box {
   display: none; 
 }
@@ -202,6 +202,19 @@ div.winzard img {
 
 .right {
   text-align: right;
+}
+.helpGrid {
+  text-align: left;
+  display: grid;
+  grid-template-columns:6.25vw 6.25vw 6.25vw 6.25vw;
+}
+.helpObj {
+  margin-bottom: 12px;
+  color: transparent;  
+  text-shadow: 0 0 0 #383838; /*possible to change emoji colors*/
+}
+.help {
+  visibility: hidden;
 }
 
 .Red {

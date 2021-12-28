@@ -17,7 +17,7 @@ export const Rules = ({game}) => {
 
   return(
     <div className="center">
-      <span className="pointer hide1400" onClick={() => flipVisibility("Rules")}>Rules:</span><br/>
+      <span className="pointer hide1100" onClick={() => flipVisibility("Rules")}>Rules:</span><br/>
       <div className="Rules box">
         <span>{text}</span>
       </div>
