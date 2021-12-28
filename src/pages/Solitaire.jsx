@@ -2,6 +2,11 @@ import { useContext, useState, useEffect } from "react"
 import { DeckContext } from "../contexts/DeckContext"
 import { ShapeContext } from "../contexts/ShapeContext"
 import { Card } from "../components/Card"
+import { Rules } from "../components/Rules"
+import { Help } from "../components/Help"
+import { useHistory } from "react-router-dom"
+
+import { GameOver } from "../utils/GameOver"
 
 export const Solitaire = () => {
   const { deck55 } = useContext(DeckContext)
@@ -12,6 +17,7 @@ export const Solitaire = () => {
   const [turn, setTurn] = useState(0)
   const [newRound, setNewRound] = useState(null)
   const [points, setPoints] = useState(0)
+  const history = useHistory()
 
   const buildBoard = (cards) => {
     const idx = cards.indexOf(cards.filter(c => c.emotion == "Average")[0])
@@ -101,80 +107,81 @@ export const Solitaire = () => {
       if (c.shape.form == obj.form && c.shape.color == obj.color) {
         return c.id
       }
-    }).filter(it => it)
+    }).filter(it => it || it == 0)
     let p = pointsx(5, arr) || pointsx(4, arr) || pointsx(3, arr)
     setPoints(prev => prev + p)
+  }
+
+  const flip = (arr) => {
+    let arrFlip = []
+    for(let i = 0; i < arr.length; i++) {
+      arrFlip.push((6 - (arr[i] % 7)) * 7 + Math.floor(arr[i] / 7))   // turning coordinates -90 deg
+    }
+    return arrFlip.sort((a, b) => a-b)
+  }
+  const unflip = (arr) => {
+    let arrFlip = []
+    arr = flip(arr)
+    for(let i = 0; i < arr.length; i++) {
+      arrFlip.push((6 - Math.floor(arr[i] / 7)) * 7 + 6 - arr[i] % 7) // turning coordinates 90 deg and swapping with the mirror coord
+    }
+    return arrFlip.sort((a, b) => a - b)
   }
 
   const pointsx = (x, arr) => {
     if (arr.length < x) return 0
     const tempArr = arr.slice()
-    const arr5x = tempArr[5 - x]
-    for (let i = 0; i < tempArr.length; i++) {
-      tempArr[i] -= arr5x
+    let tempArrD = []
+    const tempArrFlip = flip(arr)
+    let tempArrFlipD = []
+    let obj = {}
+    for (let i = 1; i < tempArr.length; i++) {
+      const dx = Math.floor(tempArr[i - 1] / 7) - Math.floor(tempArr[i] / 7)
+      const dy = tempArr[i - 1] % 7 - tempArr[i] % 7
+      const dxf = Math.floor(tempArrFlip[i - 1] / 7) - Math.floor(tempArrFlip[i] / 7)
+      const dyf = tempArrFlip[i - 1] % 7 - tempArrFlip[i] % 7
+
+      tempArrD[i-1] ="" + dx + ":" + dy
+      tempArrFlipD[i - 1] = "" + dxf + ":" + dyf
     }
+    
     if (x == 5) {
-      if (
-        isSmallArrayInBigArray([0, 7, 14, 15, 16], tempArr, arr5x) ||
-        isSmallArrayInBigArray([0, 7, 12, 13, 14], tempArr, arr5x) ||
-        isSmallArrayInBigArray([0, 7, 13, 14, 15], tempArr, arr5x) ||
-        isSmallArrayInBigArray([0, 1, 2, 8, 15], tempArr, arr5x) ||
-        isSmallArrayInBigArray([0, 7, 8, 9, 14], tempArr, arr5x) ||
-        isSmallArrayInBigArray([0, 1, 2, 7, 14], tempArr, arr5x) ||
-        isSmallArrayInBigArray([0, 5, 6, 7, 14], tempArr, arr5x) ||
-        isSmallArrayInBigArray([0, 1, 2, 9, 16], tempArr, arr5x) ||
-        isSmallArrayInBigArray([0, 1, 2, 3, 4], tempArr, arr5x) ||
-        isSmallArrayInBigArray([0, 7, 14, 21, 28], tempArr, arr5x)
-      ) {
-        return 5
-      }
+      obj = isSmallArrayInAnyBigArray('-1:0,-1:0,0:-1,0:-1', tempArrD, tempArrFlipD) || 
+        isSmallArrayInAnyBigArray('-1:0,0:-1,0:-1,-1:2', tempArrD, tempArrFlipD) ||   
+        isSmallArrayInAnyBigArray('-1:2,0:-1,0:-1,-1:0', tempArrD, tempArrFlipD) ||   
+        isSmallArrayInAnyBigArray('0:-1,0:-1,-1:0,-1:0', tempArrD, tempArrFlipD) ||   
+        isSmallArrayInAnyBigArray('0:-1,0:-1,0:-1,0:-1', tempArrD, tempArrFlipD) ||
+        isSmallArrayInAnyBigArray('-1:1,0:-1,0:-1,-1:1', tempArrD, tempArrFlipD) ||
+        isSmallArrayInAnyBigArray('0:-2,-1:2,0:-1,0:-1', tempArrD, tempArrFlipD) ||
+        isSmallArrayInAnyBigArray('0:-1,-1:1,-1:0,0:-1', tempArrD, tempArrFlipD)
     }
     else if (x == 4) {
-      if (
-        isSmallArrayInBigArray([0, 7, 14, 21], tempArr, arr5x) ||
-        isSmallArrayInBigArray([-7, 0, 7, 14], tempArr, arr5x) ||
-        isSmallArrayInBigArray([-1, 0, 1, 2], tempArr, arr5x) ||
-        isSmallArrayInBigArray([0, 1, 2, 3], tempArr, arr5x) ||
-        isSmallArrayInBigArray([0, 1, 7, 8], tempArr, arr5x) ||
-        isSmallArrayInBigArray([-1, 0, 6, 7], tempArr, arr5x)
-      ) {
-        return 4
-      }
+      obj = isSmallArrayInAnyBigArray('0:-1,0:-1,0:-1', tempArrD, tempArrFlipD) ||
+        isSmallArrayInAnyBigArray('0:-1,-1:1,0:-1', tempArrD, tempArrFlipD) 
     }
     else if (x == 3) {
-      if (
-        isSmallArrayInBigArray([-14, -7, 0], tempArr, arr5x) ||
-        isSmallArrayInBigArray([-2, -1, 0], tempArr, arr5x) ||
-        isSmallArrayInBigArray([-1, 0, -1], tempArr, arr5x) ||
-        isSmallArrayInBigArray([-7, 0, 7], tempArr, arr5x) ||
-        isSmallArrayInBigArray([0, 1, 2], tempArr, arr5x) ||
-        isSmallArrayInBigArray([0, 7, 14], tempArr, arr5x)
-      ) {
-        return 3
-      }
+      obj = isSmallArrayInAnyBigArray('0:-1,0:-1', tempArrD, tempArrFlipD) 
     }
-    return 0
+    if(!obj) return 0
+    obj.idx--
+    grayOutShapes(obj.arr == tempArrD ? tempArr.slice(obj.idx, x + obj.idx) : unflip(tempArrFlip.slice(obj.idx, x + obj.idx)))
+    return x
   }
 
-  const isSmallArrayInBigArray = (arrSmall, arrBig, amplifier) => {
-    let correctArr = arrSmall.slice()
-    while (arrSmall.length) {
-      if (!arrBig.includes(arrSmall.splice(0, 1)[0])) {
-        return false
-      }
+  const isSmallArrayInAnyBigArray = (arrSmall, ...arrBigs) => {
+    let idx = -1
+    for(let arr of arrBigs) {
+      idx = arr.toString().indexOf(arrSmall) 
+      if (idx != -1) return { idx: 1 + (idx / 5), arr} //-a:b, = 5 chars
     }
-    for (let i = 0; i < correctArr.length; i++) {
-      correctArr[i] += amplifier
-    }
-    grayOutShapes(correctArr)
-    return true
+    return false
   }
 
   const addShape = () => {
     const shape = bag.splice(0, 1)[0]
     let arr = deck.filter(c => c.shape.form == "" && c.emotion == "Average" && c.color == (shape.color.charAt(0).toUpperCase() + shape.color.slice(1)))
     if (arr.length == 0) {
-      gameOver()
+      GameOver(history, points)
       return
     }
     arr.forEach(it => {
@@ -258,19 +265,14 @@ export const Solitaire = () => {
     return indexes
   }
 
-  const gameOver = () => {
-    history.push("/")
-    alert('GameOver')
-  }
-
   return (
-    <div id="Solitaire" className="wrapper">
+    <div id="Solitaire" className="wrapper noSelect">
       <div className="giga">
         Moves: {turn}
       </div>
-      <div className="board noSelect">
+      <div className="board">
         {deck.length == 49 && deck?.map(card => (
-          <div className="temp" key={card.id}>
+          <div className="pointer" key={card.id}>
             <Card
               card={{ card }}
               shape={{ setShape, shape, removeSelectedShape }}
@@ -281,6 +283,12 @@ export const Solitaire = () => {
       </div>
       <div className="giga">
         Points: {points}
+      </div>
+      <div>
+        <Rules game={{name:"Solitaire"}}/>
+      </div>
+      <div>
+        <Help game={{ name: "Solitaire" }} />
       </div>
     </div>
   )
