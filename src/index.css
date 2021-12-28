@@ -211,7 +211,7 @@ div.winzard img {
 .helpObj {
   margin-bottom: 12px;
   color: transparent;  
-  text-shadow: 0 0 0 #383838; /*possible to change emoji colors*/
+  text-shadow: 0 0 0 black; /*possible to change emoji colors*/
 }
 .help {
   visibility: hidden;
