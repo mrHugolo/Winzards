@@ -3,13 +3,11 @@ import { useEffect, useState } from "react"
 import css from "../cssModules/Main.module.css"
 import {Shape} from "../components/Shape"
 
-export const Card = ({card, shape, game}) => {
+export const Card = ({card, shape, game, cssx}) => {
   const [handledShape, setHandledShape] = useState(card.card.shape)
-  const [cssColor, setCssColor] = useState('')
 
   useEffect(() => {
     if(card?.card?.shape?.form == '') setHandledShape(null) 
-    setCssColor(card?.card?.color)
   }, [card])
 
   const imgSrc = (url) => {
@@ -28,7 +26,7 @@ export const Card = ({card, shape, game}) => {
       return
     }
     if(shape.shape == null) {
-      if (!showPossibleMoves()) return
+      if (!game.showPossibleMoves(card.card)) return
       shape.setShape(card.card.shape || "empty")
       if(card.card.shape.form == "") card.card.shape = "empty"
       card.card.selected = "selected"
@@ -47,27 +45,18 @@ export const Card = ({card, shape, game}) => {
     }
   }
 
-  const showPossibleMoves = () => {
-    switch(game.game) {
-      case "Solitaire": {
-        return game.showPossibleMoves(card.card)
-        break;
-      }
-    }
-  }
-
   return(
-    <div className={`${css.card} ${card.card.highlighted && css.highlighted} ${card.card.selected && css.selected}`} onClick={() => handleClick()}>     
-      <div className={`${css.value} ${css[cssColor]}`} >
+    <div className={`${cssx.css.card} ${css[card.card.highlighted]} ${css[card.card.selected]}`} onClick={() => handleClick()}>
+      <div className={`${css.value} ${css[card.card.color]}`} >
         {card.card.value}
       </div>
       <div className={css.winzard}>
-        <Shape shape={handledShape} />
-        <img src={imgSrc(`${card.card.name}-${card.card.emotion}`)} />
+        <Shape shape={handledShape} cssx={cssx} />
+        <img className={cssx.css.winzardImg} src={imgSrc(`${card.card.name}-${card.card.emotion}`)} />
       </div>
-      <div className={`${css.value} ${css.right} ${css[cssColor]}`}>
+      <div className={`${css.value} ${css.right} ${css[card?.card?.color]}`}>
         {card.card.value}
-      </div>         
+      </div>
     </div>
   )
 }

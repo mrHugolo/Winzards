@@ -25,7 +25,7 @@ export const Rules = ({game}) => {
 
   const boldifyFirstWord = (t) =>{
     let arr = t.split(":")
-    return <div><span className={css.fontSizeBig}>{arr[0]}</span>:{arr[1]}</div>
+    return <p><span className={css.fontSizeBig}>{arr[0]}</span>:{arr[1]}</p>
   }
 
   return(
@@ -34,7 +34,7 @@ export const Rules = ({game}) => {
       <div className={`Rules ${css.box}`}>
         <div>
           {text.length && text.map((t, i) =>(
-            <p className={css.fontSizeSmall} key={i+"r"}>{boldifyFirstWord(t)}</p>
+            <div className={css.fontSizeSmall} key={i+"r"}>{boldifyFirstWord(t)}</div>
           ))}
         </div>
       </div>

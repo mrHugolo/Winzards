@@ -1,22 +1,18 @@
 :root {
-  --b: 1px;
-  --m: 5px;
-  --height: calc((100vh - calc(17 * var(--m)))/7 - calc(2 * var(--b)));
-  --width: calc((100vw/3 - calc(17 * var(--m)))/7 - calc(2 * var(--b)));
-  --url: url(src/pictures/border.svg) 20% round;
-  --font: 'Merienda', cursive;
+  --heightS: calc((100vh - calc(17 * var(--m)))/7 - calc(2 * var(--b)));
+  --widthS: calc((100vw/3 - calc(17 * var(--m)))/7 - calc(2 * var(--b)));
 }
 
 @media screen and (max-width: 1400px) {
   :root {
-  --width: calc((50vw - calc(17 * var(--m)))/7 - calc(2 * var(--b)));
+  --widthS: calc((50vw - calc(17 * var(--m)))/7 - calc(2 * var(--b)));
   }
 }
 
 @media screen and (max-width: 800px) {
   :root {
-  --height: min(var(--width)*2, calc((100vh - 100px - calc(17 * var(--m)))/7 - calc(2 * var(--b))));
-  --width: calc((100vw - calc(17 * var(--m)))/7 - calc(2 * var(--b)));
+  --heightS: min(var(--widthS)*2, calc((100vh - 100px - calc(17 * var(--m)))/7 - calc(2 * var(--b))));
+  --widthS: calc((100vw - calc(17 * var(--m)))/7 - calc(2 * var(--b)));
   }
 }
 
@@ -53,7 +49,7 @@
   border-image: var(--url);
 
   display: grid;
-  grid-template-columns: repeat(7, calc(var(--width) + calc(2 * (var(--m) + var(--b)))));
+  grid-template-columns: repeat(7, calc(var(--widthS) + calc(2 * (var(--m) + var(--b)))));
 }
 @media screen and (max-width: 800px) {
   .board { 
@@ -64,13 +60,61 @@
   } 
 }
 
+.card {
+  border: solid 1px black;
+  border-radius: 5px;
+  background-color: white;
+  padding: calc(var(--m)/2);
+  margin-bottom: var(--m);
+  height: var(--heightS);
+  width: var(--widthS);
+}
+
+.shape {
+  --hw: calc(var(--widthS) / 2);
+  display: none;
+  float: left;
+  position: absolute;
+  height: var(--hw);
+  width: var(--hw);
+  left: calc(var(--hw)/2);
+  top: calc(var(--hw)/2);
+  z-index: 1000;
+  border: solid black var(--b);
+}
+
+.square {
+  display: block;
+}
+
+.circle {
+  display: block;
+  border-radius: 50%;
+}
+
+.triangle {
+  display: block;
+  height: 100%;
+  border-radius: 30% 30% 70% 70% / 60% 60% 70% 70%;
+  margin-top: -10px;
+  transform: rotate(180deg);
+}
+
+img.winzardImg {
+  display: block;
+  width: min(calc(var(--heightS) * 0.6), var(--widthS));
+  height: min(calc(var(--heightS) * 0.6), var(--widthS));
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .value {
-  font-size: calc(var(--height) / 8);
+  font-size: calc(var(--heightS) / 8);
   text-shadow: 0.33px 0 0 #000, 0 -0.33px 0 #000, 0 0.33px 0 rgb(48, 70, 167), -0.33px 0 0 #000;
 }
 .giga {
   text-align: center;
-  font-size: calc(var(--height) / 6);
+  font-size: calc(var(--heightS) / 6);
 }
 @media screen and (max-width: 800px) {
   .giga {

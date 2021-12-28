@@ -7,6 +7,7 @@ import ShapeProvider, { ShapeContext } from "./contexts/ShapeContext";
 //pages
 import { Home } from "./pages/Home";
 import { Solitaire } from "./pages/Solitaire";
+import { Wall } from "./pages/Wall";
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
             <Switch>
               <Route exact path="/" component={Home} />
               <Route exact path="/solitaire" component={Solitaire} />
+              <Route exact path="/wall" component={Wall} />
             </Switch>
           </Router>
         </DeckProvider>

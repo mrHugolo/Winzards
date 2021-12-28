@@ -194,6 +194,7 @@ export const Solitaire = () => {
   }
 
   const showPossibleMoves = (card) => {
+    console.log('showp', card)
     let arr = []
     let indexes = []
     if (card.shape.form == "triangle") {
@@ -280,6 +281,7 @@ export const Solitaire = () => {
               card={{ card }}
               shape={{ setShape, shape, removeSelectedShape }}
               game={{ game: "Solitaire", showPossibleMoves, newRound, setNewRound, setTurn }}
+              cssx={{css: scss}}
             />
           </div>
         ))}
