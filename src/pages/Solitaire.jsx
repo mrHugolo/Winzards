@@ -1,10 +1,13 @@
 import { useContext, useState, useEffect } from "react"
+import { useHistory } from "react-router-dom"
+
+import css from "../cssModules/Main.module.css"
+import scss from "../cssModules/Solitaire.module.css"
 import { DeckContext } from "../contexts/DeckContext"
 import { ShapeContext } from "../contexts/ShapeContext"
 import { Card } from "../components/Card"
 import { Rules } from "../components/Rules"
 import { Help } from "../components/Help"
-import { useHistory } from "react-router-dom"
 
 import { GameOver } from "../utils/GameOver"
 
@@ -266,13 +269,13 @@ export const Solitaire = () => {
   }
 
   return (
-    <div id="Solitaire" className="wrapper noSelect">
-      <div className="giga">
+    <div id="Solitaire" className={`${css.noSelect} ${scss.wrapper}`}>
+      <div className={scss.giga}>
         Moves: {turn}
       </div>
-      <div className="board">
+      <div className={scss.board}>
         {deck.length == 49 && deck?.map(card => (
-          <div className="pointer" key={card.id}>
+          <div className={css.pointer} key={card.id}>
             <Card
               card={{ card }}
               shape={{ setShape, shape, removeSelectedShape }}
@@ -281,7 +284,7 @@ export const Solitaire = () => {
           </div>
         ))}
       </div>
-      <div className="giga">
+      <div className={scss.giga}>
         Points: {points}
       </div>
       <div>

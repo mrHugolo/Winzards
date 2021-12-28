@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react"
+
+import css from "../cssModules/Main.module.css"
 import { flipVisibility } from "../utils/Utils"
 
 export const Rules = ({game}) => {
@@ -16,9 +18,9 @@ export const Rules = ({game}) => {
   }, [game?.name])
 
   return(
-    <div className="center">
-      <span className="pointer hide1100" onClick={() => flipVisibility("Rules")}>Rules:</span><br/>
-      <div className="Rules box">
+    <div className={css.center}>
+      <span className={`${css.pointer} ${css.hide1100}`} onClick={() => flipVisibility("Rules")}>Rules:</span><br/>
+      <div className={`Rules ${css.box}`}>
         <span>{text}</span>
       </div>
     </div>

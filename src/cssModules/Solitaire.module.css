@@ -1,0 +1,88 @@
+:root {
+  --b: 1px;
+  --m: 5px;
+  --height: calc((100vh - calc(17 * var(--m)))/7 - calc(2 * var(--b)));
+  --width: calc((100vw/3 - calc(17 * var(--m)))/7 - calc(2 * var(--b)));
+  --url: url(src/pictures/border.svg) 20% round;
+  --font: 'Merienda', cursive;
+}
+
+@media screen and (max-width: 1400px) {
+  :root {
+  --width: calc((50vw - calc(17 * var(--m)))/7 - calc(2 * var(--b)));
+  }
+}
+
+@media screen and (max-width: 800px) {
+  :root {
+  --height: min(var(--width)*2, calc((100vh - 100px - calc(17 * var(--m)))/7 - calc(2 * var(--b))));
+  --width: calc((100vw - calc(17 * var(--m)))/7 - calc(2 * var(--b)));
+  }
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: calc(100vw/3) calc(100vw/3) calc(100vw/3);
+  grid-template-rows: 20vh 80vh;
+}
+@media screen and (max-width: 1400px) {
+  .wrapper {
+    grid-template-columns: calc(25vw) calc(50vw) calc(25vw);
+  } 
+}
+@media screen and (max-width: 800px) {
+  .wrapper {
+    grid-template-columns: 10vw 40vw 40vw 10vw;
+    grid-template-rows: 50px auto 50px;
+    grid-template-areas: 
+      "header header header header"
+      "side board board side"
+      "side footer footer side"
+    ;
+  } 
+}
+
+.board { 
+  grid-column-start: 2;
+  grid-column-end: span 1;
+  grid-row-start: 1;
+  grid-row-end: span 2;
+
+  border: var(--m) solid transparent;
+  padding: var(--m);
+  border-image: var(--url);
+
+  display: grid;
+  grid-template-columns: repeat(7, calc(var(--width) + calc(2 * (var(--m) + var(--b)))));
+}
+@media screen and (max-width: 800px) {
+  .board { 
+    grid-column-start: 1;
+    grid-column-end: span 4;
+    grid-row-start: 2;
+    grid-row-end: span 2;
+  } 
+}
+
+.value, .giga {
+  font-size: calc(var(--height) / 8);
+  text-shadow: 0.33px 0 0 #000, 0 -0.33px 0 #000, 0 0.33px 0 rgb(48, 70, 167), -0.33px 0 0 #000;
+}
+.giga {
+  text-align: center;
+}
+@media screen and (max-width: 800px) {
+  .giga {
+    margin: auto;
+    grid-column-end: span 1;
+    grid-row-start: 1;
+    grid-row-end: span 1;
+  }
+  .giga:nth-child(1) {
+    grid-column-start: 2;
+
+  }
+  .giga:nth-child(3) {
+    grid-column-start: 3;
+  }
+}

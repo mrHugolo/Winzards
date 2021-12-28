@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react"
+
+import css from "../cssModules/Main.module.css"
 import {Shape} from "../components/Shape"
 
 export const Card = ({card, shape, game}) => {
   const [handledShape, setHandledShape] = useState(card.card.shape)
+  const [cssColor, setCssColor] = useState('')
 
   useEffect(() => {
     if(card?.card?.shape?.form == '') setHandledShape(null) 
+    setCssColor(card?.card?.color)
   }, [card])
 
   const imgSrc = (url) => {
@@ -53,15 +57,15 @@ export const Card = ({card, shape, game}) => {
   }
 
   return(
-    <div className={`card ${card.card.highlighted} ${card.card.selected}`} onClick={() => handleClick()}>     
-      <div className={`value ${card.card.color}`}>
+    <div className={`${css.card} ${card.card.highlighted && css.highlighted} ${card.card.selected && css.selected}`} onClick={() => handleClick()}>     
+      <div className={`${css.value} ${css[cssColor]}`} >
         {card.card.value}
       </div>
-      <div className="winzard">
+      <div className={css.winzard}>
         <Shape shape={handledShape} />
         <img src={imgSrc(`${card.card.name}-${card.card.emotion}`)} />
       </div>
-      <div className={`value right ${card.card.color}`}>
+      <div className={`${css.value} ${css.right} ${css[cssColor]}`}>
         {card.card.value}
       </div>         
     </div>

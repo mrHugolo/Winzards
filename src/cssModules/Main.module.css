@@ -122,6 +122,19 @@ div.winzard img {
   transform: rotate(180deg);
 }
 
+.box {
+  text-align: center;
+  margin: auto;
+  border: var(--m) solid transparent;
+  border-image: var(--url);
+  max-width: 25vw;
+}
+@media screen and (max-width: 1100px) {
+  .box {
+    display: none; 
+  }
+}
+
 .hidden {
   display: none;
 }
