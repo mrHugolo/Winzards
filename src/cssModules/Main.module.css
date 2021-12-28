@@ -46,6 +46,12 @@ body {
   }
 }
 
+.fontSizeSmall {
+  font-size: 0.8rem;
+}
+.fontSizeBig {
+  font-size: 0.9rem;
+}
 
 .center {
   text-align: center;
@@ -123,7 +129,7 @@ div.winzard img {
 }
 
 .box {
-  text-align: center;
+  text-align: left;
   margin: auto;
   border: var(--m) solid transparent;
   border-image: var(--url);

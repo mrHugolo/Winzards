@@ -23,7 +23,7 @@
 .wrapper {
   display: grid;
   grid-template-columns: calc(100vw/3) calc(100vw/3) calc(100vw/3);
-  grid-template-rows: 20vh 80vh;
+  grid-template-rows: 10vh 90vh;
 }
 @media screen and (max-width: 1400px) {
   .wrapper {
@@ -64,12 +64,13 @@
   } 
 }
 
-.value, .giga {
+.value {
   font-size: calc(var(--height) / 8);
   text-shadow: 0.33px 0 0 #000, 0 -0.33px 0 #000, 0 0.33px 0 rgb(48, 70, 167), -0.33px 0 0 #000;
 }
 .giga {
   text-align: center;
+  font-size: calc(var(--height) / 6);
 }
 @media screen and (max-width: 800px) {
   .giga {
