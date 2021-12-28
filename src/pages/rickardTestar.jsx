@@ -1,19 +1,29 @@
 export const Rickardtestar = () => {
-    const showresult = () => {
-        var tal1 = +(prompt("Skriv in ett tal"))
-        var tal2 = +(prompt("Skriv in ett tal till"))
-        var summa = tal1 + tal2
-        var text = "Sanningen är att "
+    
+    function smallest(foo){
         
-        if(tal1 > tal2){
-            document.write(text + tal1 + " är större än " + tal2 + " och om de adderas blir värdet " + summa)
+        return Math.min.apply(Math,foo)
+    }
+
+      
+    const showresult = () => {
+        
+    var foo = [3 , 6, 2, 56, 32, 5, 89, 32];
+   
+    var largest=0
+
+    for (var i=0; i<=largest;i++){
+        if (foo>largest) {
+            var largest=foo[i];
         }
-        else if(tal1 < tal2){
-            document.write(text + tal1 + " är mindre än " + tal2 + " och om de adderas blir värdet " + summa)
-        }
-        else{
-            document.write(text + tal1 + " är lika stort som " + tal2 + " och om de adderas blir värdet " + summa)
-        }
+    }   
+
+    var min = smallest(foo)
+    var max = largest
+    console.log(min)
+
+    console.log(max)
+        
     }
     return(
         <div>
