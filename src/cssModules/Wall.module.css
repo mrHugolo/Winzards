@@ -11,6 +11,41 @@
   grid-template-rows: var(--boardHeightW) calc(100vh - var(--boardHeightW));
 }
 
+.pickPlayer {
+  --w: 50vw;
+  --h: 35vw;
+  position: fixed;
+  text-align: center;
+  width: var(--w);
+  height: var(--h);
+  left: calc(50% - calc(var(--w)/2));
+  top: calc(50% - calc(var(--h)/2));
+  background-color: rgb(160, 105, 105);
+  z-index: 10;
+}
+
+.pickPlayerGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.charactherImg {
+  --r: calc(10vw - 3px);
+  width: var(--r);
+  height: var(--r);
+  background-color: white;
+  border: solid black 1px;
+  border-radius: 50%;
+}
+
+.charactherImg img {
+  display: block;
+  width: 80%;
+  height: 80%;
+  margin: auto;
+  margin-top: 5%;
+}
+
 .board { 
   height: calc(var(--boardHeightW) - calc(var(--m) * 4));
   grid-column-start: 2;
@@ -45,7 +80,7 @@
   width: var(--hw);
   left: calc(var(--hw)/2);
   top: calc(var(--hw)/2);
-  z-index: 1000;
+  z-index: 5;
   border: solid black var(--b);
 }
 

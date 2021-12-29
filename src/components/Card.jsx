@@ -46,7 +46,8 @@ export const Card = ({card, shape, game, cssx}) => {
   }
 
   return(
-    <div className={`${cssx.css.card} ${css[card.card.highlighted]} ${css[card.card.selected]}`} onClick={() => handleClick()}>
+    <div className={`${cssx.css.card} ${css[card.card.highlighted]} ${css[card.card.selected]} ${card.showShineColor && css[card.card.shineColor]}`} 
+    onClick={() => handleClick()}>
       <div className={`${css.value} ${css[card.card.color]}`} >
         {card.card.value}
       </div>
