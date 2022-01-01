@@ -1,3 +1,7 @@
+.utilColor {
+  background-color: #333333;
+  border-radius: 5px;
+}
 .helpGrid {
   text-align: left;
   display: grid;
@@ -6,7 +10,7 @@
 .helpObj {
   margin-bottom: 12px;
   color: transparent;  
-  text-shadow: 0 0 0 black; /*possible to change emoji colors*/
+  text-shadow: 0 0 0 #a5a7ab; /*possible to change emoji colors*/
 }
 .help {
   visibility: hidden;

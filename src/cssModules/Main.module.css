@@ -7,8 +7,16 @@
 
 body {
   margin: 0;
-  background-color: wheat;
+  background-color: #36393f;
   font-family: var(--font);
+  color: 	#999999;
+}
+
+.board {
+  border: var(--m) solid transparent;
+  padding: var(--m);
+  border-image: var(--url);
+  background-color: #333333;
 }
 
 .noSelect {
@@ -19,6 +27,46 @@ body {
         -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
+}
+
+.pickPlayer {
+  --w: 50vw;
+  --h: 35vw;
+  position: fixed;
+  text-align: center;
+  width: var(--w);
+  height: var(--h);
+  left: calc(50% - calc(var(--w)/2));
+  top: calc(50% - calc(var(--h)/2));
+  background-color: rgb(160, 105, 105);
+  border: solid black 2px;
+  z-index: 10;
+}
+
+.pickPlayerGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.charactherImg {
+  --r: calc(10vw - 3px);
+  width: var(--r);
+  height: var(--r);
+  background-color: white;
+  border: solid black 1px;
+  border-radius: 50%;
+}
+
+.charactherImg img {
+  display: block;
+  width: 80%;
+  height: 80%;
+  margin: auto;
+  margin-top: 5%;
+}
+
+.taken {
+  opacity: 0.5;
 }
 
 .pointer {
@@ -46,11 +94,11 @@ body {
   display: none;
 }
 
-.highlighted {
-  background-color: rgb(218, 141, 141) !important;
+div div.highlighted {
+  background-color: rgb(218, 141, 141);
 }
-.selected {
-  background-color: rgb(143, 226, 143) !important;
+div div.selected {
+  background-color: rgb(143, 226, 143);
 }
 
 .value {
@@ -86,10 +134,10 @@ body {
   margin: auto;
   margin-top: 5%;
 }
-.playerImg:nth-child(2) {
+.playerImg:nth-child(3) {
   grid-column-start: 2;
 }
-.playerImg:nth-child(3) {
+.playerImg:nth-child(4) {
   grid-column-start: 3;
 }
 
@@ -120,8 +168,8 @@ body {
 .red {
   background-color: red;
 }
-.shineRed {
-  background-color: rgb(243, 181, 181) !important;
+div.shineRed {
+  background-color: 	#FFF0F5;
 }
 .Blue {
   color: #428fcd;
@@ -129,8 +177,8 @@ body {
 .blue {
   background-color: blue;
 }
-.shineBlue {
-  background-color: rgb(163, 163, 241) !important;
+div.shineBlue {
+  background-color: #F0FFFF;
 }
 .White {
   color: #d0eaef;
@@ -138,8 +186,8 @@ body {
 .white {
   background-color: white;
 }
-.shineWhite {
-  background-color: rgb(206, 194, 194) !important;
+div.shineWhite {
+  background-color: 	#F5F5F5;
 }
 .Green {
   color: #76af35;
@@ -147,8 +195,8 @@ body {
 .green {
   background-color: green;
 }
-.shineGreen {
-  background-color: rgb(164, 236, 164) !important;
+div.shineGreen {
+  background-color: #F0FFF0;
 }
 .Yellow {
   color: #f8eb2f;
@@ -156,8 +204,8 @@ body {
 .yellow {
   background-color: yellow;
 }
-.shineYellow {
-  background-color: rgb(238, 238, 168) !important;
+div.shineYellow {
+  background-color: #FFFFF0;
 }
 .gray {
   background-color: gray;

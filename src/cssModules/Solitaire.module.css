@@ -44,10 +44,6 @@
   grid-row-start: 1;
   grid-row-end: span 2;
 
-  border: var(--m) solid transparent;
-  padding: var(--m);
-  border-image: var(--url);
-
   display: grid;
   grid-template-columns: repeat(7, calc(var(--widthS) + calc(2 * (var(--m) + var(--b)))));
 }

@@ -3,53 +3,22 @@
   --boardWidthW: 60vw;
   --heightW: calc((var(--boardHeightW) - calc(13 * var(--m)))/5 - calc(2 * var(--b)));
   --widthW: calc((var(--boardWidthW) - calc(23 * var(--m)))/10 - calc(2 * var(--b)));
+  --playerW: 15vh;
+  --playerbW: 2px;
 }
 
 .wrapper {
+  --gridA: calc((100vw - var(--boardWidthW))/2);
+  --gridB: calc(var(--boardWidthW)/4 + var(--playerW)/2 + var(--playerbW));
   display: grid;
-  grid-template-columns: auto calc(var(--boardWidthW)/2) calc(var(--boardWidthW)/2) auto;
+  grid-template-columns: var(--gridA) var(--gridB) calc(100vw - 2 * (var(--gridA) + var(--gridB))) var(--gridB) var(--gridA);
   grid-template-rows: var(--boardHeightW) calc(100vh - var(--boardHeightW));
-}
-
-.pickPlayer {
-  --w: 50vw;
-  --h: 35vw;
-  position: fixed;
-  text-align: center;
-  width: var(--w);
-  height: var(--h);
-  left: calc(50% - calc(var(--w)/2));
-  top: calc(50% - calc(var(--h)/2));
-  background-color: rgb(160, 105, 105);
-  z-index: 10;
-}
-
-.pickPlayerGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-}
-
-.charactherImg {
-  --r: calc(10vw - 3px);
-  width: var(--r);
-  height: var(--r);
-  background-color: white;
-  border: solid black 1px;
-  border-radius: 50%;
-}
-
-.charactherImg img {
-  display: block;
-  width: 80%;
-  height: 80%;
-  margin: auto;
-  margin-top: 5%;
 }
 
 .board { 
   height: calc(var(--boardHeightW) - calc(var(--m) * 4));
   grid-column-start: 2;
-  grid-column-end: span 2;
+  grid-column-end: span 3;
   grid-row-start: 1;
   grid-row-end: span 2;
 
@@ -107,4 +76,94 @@ img.winzardImg {
   height: min(calc(var(--heightW) * 0.6), var(--widthW));
   margin-left: auto;
   margin-right: auto;
+}
+
+.pickPlayer {
+  --w: 50vw;
+  --h: 35vw;
+  position: fixed;
+  text-align: center;
+  width: var(--w);
+  height: var(--h);
+  left: calc(50% - calc(var(--w)/2));
+  top: calc(50% - calc(var(--h)/2));
+  background-color: #333333;
+  border: solid black 2px;
+  z-index: 10;
+}
+
+.pickPlayerGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.charactherImg {
+  --r: calc(10vw - 3px);
+  width: var(--r);
+  height: var(--r);
+  background-color: white;
+  border: solid black 1px;
+  border-radius: 50%;
+}
+
+.charactherImg img {
+  display: block;
+  width: 80%;
+  height: 80%;
+  margin: auto;
+  margin-top: 5%;
+}
+
+.playerImg {
+  width: var(--playerW);
+  height: var(--playerW);
+  /* margin: auto; */
+  border: solid var(--playerbW) black;
+  border-radius: 50%;
+  background-color: white;
+
+  grid-column-end: span 1;
+  grid-row-start: 2;
+  grid-row-end: span 1;
+}
+
+.playerImg img {
+  display: block;
+  width: 80%;
+  height: 80%;
+  margin: auto;
+  margin-top: 5%;
+}
+div#playerImg1 {
+  margin: auto 0 auto auto;
+  grid-column-start: 2;
+}
+div#playerImg2 {
+  margin: auto auto auto 0;
+  grid-column-start: 4;
+}
+
+
+.info {
+  grid-column-start: 3;
+  grid-row-start: 2;
+
+  display: grid;
+  margin: auto;
+  text-align: center;
+}
+
+.btn {
+  --btnW: calc(var(--boardWidthW) - 50vw);
+  font-family: var(--font);
+  text-align: center;
+
+  width: var(--btnW);
+  height: calc(var(--btnW)/2);
+  border: solid black 2px;
+  border-radius: 5px;
+}
+
+.btnPass {
+  margin: auto;
 }

@@ -94,7 +94,7 @@ export const Help = ({ game }) => {
   return (
     <div className={css.center}>
       <span className={`${css.pointer} ${css.hide1100}`} onClick={() => flipVisibility("Help")}>Shapes:</span><br />
-      <div className={`Help ${css.box}`}>
+      <div className={`Help ${css.box} ${ucss.utilColor}`}>
         <div className={ucss.helpGrid}>
           {text && text.map((arr, idx) => (
             <div key={idx + "arr"} className={ucss.helpObj}>

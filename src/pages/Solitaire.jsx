@@ -10,6 +10,7 @@ import { Rules } from "../components/Rules"
 import { Help } from "../components/Help"
 
 import { GameOver } from "../utils/GameOver"
+import { findPlayerCard, indexesAround } from "../utils/Utils"
 
 export const Solitaire = () => {
   const { deck55 } = useContext(DeckContext)
@@ -184,7 +185,7 @@ export const Solitaire = () => {
     const shape = bag.splice(0, 1)[0]
     let arr = deck.filter(c => c.shape.form == "" && c.emotion == "Average" && c.color == (shape.color.charAt(0).toUpperCase() + shape.color.slice(1)))
     if (arr.length == 0) {
-      GameOver(history, points)
+      GameOver(history, points, "Solitaire")
       return
     }
     arr.forEach(it => {
@@ -194,7 +195,6 @@ export const Solitaire = () => {
   }
 
   const showPossibleMoves = (card) => {
-    console.log('showp', card)
     let arr = []
     let indexes = []
     if (card.shape.form == "triangle") {
@@ -204,7 +204,7 @@ export const Solitaire = () => {
         for (let nr = 0; nr < 49; nr++) indexes[nr] = nr
       }
       else if (card.emotion == "Average") {
-        indexes = indexesAround(i)
+        indexes = indexesAround(i, 7)
       }
       else if (card.emotion == "Sad") {
         const idx = card.id
@@ -220,7 +220,7 @@ export const Solitaire = () => {
       }
     }
     else if (card.shape.form == "square" || card.shape.form == "circle") {
-      const playerCard = findPlayerCard(card.shape.color, card.id)
+      const playerCard = findPlayerCard(card.shape.color, card.id, deck, 7)
       if (!playerCard) return
 
       if (playerCard.emotion == "Powerfull") {
@@ -228,8 +228,9 @@ export const Solitaire = () => {
       }
       else if (playerCard.emotion == "Average") {
         const i = playerCard.id
-        indexes = indexesAround(i)
-        if (indexes.length == 8) indexes.push(2 * card.id - i)
+        const push = 2 * card.id - i
+        indexes = indexesAround(i, 7)
+        if (i%7 - card.id%7 == card.id%7 - push%7 && Math.floor(i/7) - Math.floor(card.id/7) == Math.floor(card.id/7) - Math.floor(push/7)) indexes.push(push)
       }
       else if (playerCard.emotion == "Sad") return
     }
@@ -239,7 +240,7 @@ export const Solitaire = () => {
       }
       else if (card.emotion == "Average") {
         const i = card.id
-        indexes = indexesAround(i)
+        indexes = indexesAround(i, 7)
       }
     }
 
@@ -257,24 +258,12 @@ export const Solitaire = () => {
     })
   }
 
-  const findPlayerCard = (color, i) => {
-    const indexes = indexesAround(i)
-    return deck.filter(c => c.shape.color == color && c.color == (color.charAt(0).toUpperCase() + color.slice(1)) && c.shape.form == "triangle" && indexes.includes(c.id))[0]
-  }
-
-  const indexesAround = (i) => {
-    let indexes = [i - 8, i - 7, i - 6, i - 1, i + 1, i + 6, i + 7, i + 8]
-    if (i % 7 == 0) indexes = [i - 7, i - 6, i + 1, i + 7, i + 8]
-    else if (i % 7 == 6) indexes = [i - 8, i - 7, i - 1, i + 6, i + 7]
-    return indexes
-  }
-
   return (
     <div id="Solitaire" className={`${css.noSelect} ${scss.wrapper}`}>
       <div className={scss.giga}>
         Moves: {turn}
       </div>
-      <div className={scss.board}>
+      <div className={`${css.board} ${scss.board}`}>
         {deck.length == 49 && deck?.map(card => (
           <div className={css.pointer} key={card.id}>
             <Card

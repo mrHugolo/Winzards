@@ -21,6 +21,10 @@ export const Card = ({card, shape, game, cssx}) => {
       card.card.selected = "selected"
       setHandledShape(game.newRound)
       game.setNewRound(null)
+      if (game?.removeObj) {
+        game.removeObj(card) // Wall
+        card.card.selected = null
+      }
       shape.removeSelectedShape(card)
       game.setTurn(0)
       return
@@ -46,7 +50,7 @@ export const Card = ({card, shape, game, cssx}) => {
   }
 
   return(
-    <div className={`${cssx.css.card} ${css[card.card.highlighted]} ${css[card.card.selected]} ${card.showShineColor && css[card.card.shineColor]}`} 
+    <div className={`${cssx.css.card} ${card.showShineColor && css[card.card.shineColor]} ${css[card.card.highlighted]} ${css[card.card.selected]}`} 
     onClick={() => handleClick()}>
       <div className={`${css.value} ${css[card.card.color]}`} >
         {card.card.value}

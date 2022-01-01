@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 
 import css from "../cssModules/Main.module.css"
+import ucss from "../cssModules/Utils.module.css"
 import { flipVisibility } from "../utils/Utils"
 
 export const Rules = ({game}) => {
@@ -31,7 +32,7 @@ export const Rules = ({game}) => {
   return(
     <div className={css.center}>
       <span className={`${css.pointer} ${css.hide1100}`} onClick={() => flipVisibility("Rules")}>Rules:</span><br/>
-      <div className={`Rules ${css.box}`}>
+      <div className={`Rules ${css.box} ${ucss.utilColor}`}>
         <div>
           {text.length && text.map((t, i) =>(
             <div className={css.fontSizeSmall} key={i+"r"}>{boldifyFirstWord(t)}</div>
