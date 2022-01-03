@@ -12,7 +12,7 @@ import { findPlayerCard, indexesAround } from "../utils/Utils"
 import { GameOver } from "../utils/GameOver"
 
 export const Wall = () => {
-  const { deck55 } = useContext(DeckContext)
+  const { wallDeck } = useContext(DeckContext)
   const { bag45 } = useContext(ShapeContext)
   const [deck, setDeck] = useState()
   const [shape, setShape] = useState(null)
@@ -26,8 +26,8 @@ export const Wall = () => {
   const history = useHistory()
 
   useEffect(() => {
-    setDeck(createBoard(deck55))
-  }, [deck55])
+    setDeck(createBoard(wallDeck))
+  }, [wallDeck])
 
   useEffect(() => {
     if(!playerTurn) return
@@ -39,7 +39,6 @@ export const Wall = () => {
     const bag = bag45.slice()
     // TODO: see if the number of circles per color is less than the cards of the same color and at least one average
     cards.forEach((c, i) => {
-      c.id = i
       
       // triangles
       if (i == 40 || i == 49) c.shape = { form: "triangle", color: "blue" }
@@ -61,7 +60,7 @@ export const Wall = () => {
         c.shape = card
       }
     })
-    return cards.slice(0, 50)
+    return cards
   }
 
   const startGame = () => {
@@ -125,19 +124,21 @@ export const Wall = () => {
       }
     }
     else if (card.shape.form == "square" || card.shape.form == "circle") {
-      const playerCard = findPlayerCard(card.shape.color, card.id, deck, 10)
+      const playerCard = findPlayerCard(card.shape.color, card.id, deck, 10, "Wall")
       if (!playerCard || playerCard.shineColor != players[playerTurn - 1].shineColor) return
 
+      const i = playerCard.id
+      const push = 2 * card.id - i
       if (playerCard.emotion == "Powerfull") {
         for (let nr = 0; nr < 50; nr++) indexes[nr] = nr
       }
       else if (playerCard.emotion == "Average") {
-        const i = playerCard.id
-        const push = 2 * card.id - i
         indexes = indexesAround(i, 10)
         if (i % 10 - card.id % 10 == card.id % 10 - push % 10 && Math.floor(i / 10) - Math.floor(card.id / 10) == Math.floor(card.id / 10) - Math.floor(push / 10)) indexes.push(push)
       }
-      else if (playerCard.emotion == "Sad") return
+      else if (playerCard.emotion == "Sad") {
+        if(Math.abs(i - card.id) == 10) indexes = [push]
+      }
     }
     else if (card.shape.form == "") {
       if (card.emotion == "Powerfull") {

@@ -68,9 +68,11 @@ export const charachterList = [
   }
 ] 
 
-export const findPlayerCard = (color, i, deck, boardLength) => {
+export const findPlayerCard = (color, i, deck, boardLength, game) => {
   const indexes = indexesAround(i, boardLength)
-  return deck.filter(c => c.shape.color == color && c.color == (color.charAt(0).toUpperCase() + color.slice(1)) && c.shape.form == "triangle" && indexes.includes(c.id))[0]
+  let playerCards = deck.filter(c => c.shape.color == color && c.color.toLowerCase() == color && c.shape.form == "triangle" && indexes.includes(c.id))
+  if(game == "Wall") playerCards = playerCards.filter(pc => deck[i].shineColor == pc.shineColor)
+  return playerCards[0]
 }
 
 export const indexesAround = (i, bl) => {
