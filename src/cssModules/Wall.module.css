@@ -100,8 +100,8 @@ img.winzardImg {
 .charactherImg {
   --r: calc(10vw - 3px);
   width: var(--r);
-  height: var(--r);
-  background-color: white;
+  height: var(--r);  
+  background-color: #999999;
   border: solid black 1px;
   border-radius: 50%;
 }
@@ -117,10 +117,9 @@ img.winzardImg {
 .playerImg {
   width: var(--playerW);
   height: var(--playerW);
-  /* margin: auto; */
   border: solid var(--playerbW) black;
   border-radius: 50%;
-  background-color: white;
+  background-color: #999999;
 
   grid-column-end: span 1;
   grid-row-start: 2;

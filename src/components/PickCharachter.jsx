@@ -2,12 +2,20 @@ import { charachterList } from "../utils/Utils"
 import css from "../cssModules/Main.module.css"
 import { useEffect, useState } from "react"
 
-export const PickCharachter = ({game, cssx}) => {
+export const PickCharachter = ({game, cssx, hide}) => {
   const [charachters, setCharachters] = useState([])
   const [playerTracker, setPlayerTracker] = useState(1)
 
   useEffect(() => {
-    if(charachterList.length) setCharachters(charachterList)
+    if(charachterList.length) {
+      let arr = []
+      if(hide?.hide != undefined) {
+        arr = charachterList.filter(c => !c.src.includes(hide.hide))
+      } else {
+        arr = charachterList
+      }
+      setCharachters(arr)
+    }
   }, [charachterList])
 
   const handleClick = (c) => {
@@ -17,6 +25,11 @@ export const PickCharachter = ({game, cssx}) => {
     charachters.filter(char => char.shineColor == c.shineColor).forEach(it => {
       it.taken = true
     })
+  }
+
+  const close = () => {
+    setPlayerTracker(game.maxPlayers + 1)
+    game.startGame()
   }
 
   return(
@@ -30,6 +43,7 @@ export const PickCharachter = ({game, cssx}) => {
           </div>
         ))}
       </div>
+      <button onClick={() => close()} className={playerTracker > game.minPlayers ? cssx.css.startGame : css.hide}>Start</button>
     </div>
   )
 }

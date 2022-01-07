@@ -1,0 +1,165 @@
+:root {
+  --boardHeightR: 95vh;
+  --boardWidthR: 60vw;
+  --xR: 9;
+  --yR: 9;
+  --heightR: calc((var(--boardHeightR) - calc((3 + 2 * var(--yR)) * var(--m)))/var(--yR) - calc(2 * var(--b)));
+  --widthR: calc((var(--boardWidthR) - calc((3 + 2 * var(--xR)) * var(--m)))/var(--xR) - calc(2 * var(--b)));
+  --playerR: 15vh;
+  --playerbR: 2px;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: calc((100vw - var(--boardWidthR))/2) var(--boardWidthR) calc((100vw - var(--boardWidthR))/2);
+  grid-template-rows: calc(100vh - var(--boardHeightR)) var(--boardHeightR);
+}
+
+.board { 
+  grid-column-start: 2;
+  grid-row-start: 2;
+
+  display: grid;
+  grid-template-columns: repeat(var(--xR), calc(var(--widthR) + calc(2 * (var(--m) + var(--b)))));
+}
+
+.card {
+  border: solid 1px black;
+  border-radius: 5px;
+  background-color: white;
+  padding: calc(var(--m)/2);
+  margin-bottom: var(--m);
+  height: var(--heightR);
+  width: var(--widthR);
+
+  display: flex;
+  justify-self: center;
+}
+
+.shape {
+  --hw: min(calc(var(--widthR) / 2), calc(var(--heightR) / 2));
+  position: absolute;
+  top: calc(1.5 * var(--hw));
+  height: var(--hw);
+  width: var(--hw);
+  z-index: 5;
+}
+
+.square {
+  display: block;
+  border: solid black var(--b);
+}
+
+.circle {
+  display: block;
+  border-radius: 50%;
+  border: solid black var(--b);
+}
+
+.triangle {
+  display: block;
+  height: calc(0.8 * var(--heightR));
+  border-radius: 30% 30% 70% 70% / 60% 60% 70% 70%;
+  /* margin-top: calc(var(--heightR)/-6); */
+  transform: rotate(180deg);
+  border: solid black var(--b);
+}
+
+.winzard {
+  width: var(--widthR);
+  height: var(--heightR);
+  display: flex;
+  justify-content: center;
+}
+
+img.winzardImg {
+  display: block;
+  width: calc(0.8 * min(var(--heightR), var(--widthR)));
+  height: calc(0.8 * min(var(--heightR), var(--widthR)));
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.pickPlayer {
+  --w: 50vw;
+  --h: 35vw;
+  position: fixed;
+  text-align: center;
+  width: var(--w);
+  height: var(--h);
+  left: calc(50% - calc(var(--w)/2));
+  top: calc(50% - calc(var(--h)/2));
+  background-color: #333333;
+  border: solid black 2px;
+  z-index: 10;
+}
+
+.pickPlayerGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 12.5vw);
+}
+
+.charactherImg {
+  --r: calc(10vw - 3px);
+  width: var(--r);
+  height: var(--r);
+  background-color: #999999;
+  border: solid black 1px;
+  border-radius: 50%;
+  margin: auto;
+}
+
+.charactherImg img {
+  display: block;
+  width: 80%;
+  height: 80%;
+  margin: auto;
+  margin-top: 5%;
+}
+
+.playerImg {
+  width: var(--playerR);
+  height: var(--playerR);
+  border: solid var(--playerbR) black;
+  border-radius: 50%;
+  background-color: #999999;
+}
+
+.playerImg img {
+  display: block;
+  width: 80%;
+  height: 80%;
+  margin: auto;
+  margin-top: 5%;
+}
+div.playerImg1 {
+  margin: 0 calc(2*var(--playerbR)) auto auto;
+  grid-column-start: 1;
+  grid-row-start: 2;
+}
+div.playerImg2 {
+  margin: 0 auto auto calc(2*var(--playerbR));
+  grid-column-start: 3;
+  grid-row-start: 2;
+}
+div.playerImg3 {
+  margin: auto calc(2*var(--playerbR)) 0 auto;
+  grid-column-start: 1;
+  grid-row-start: 2;
+}
+div.playerImg4 {
+  margin: auto auto 0 calc(2*var(--playerbR));
+  grid-column-start: 3;
+  grid-row-start: 2;
+}
+
+button.startGame {
+  padding: 3px 6px;
+  background-color: #36393f;
+  color: 	#999999;
+}
+
+.turn {
+  grid-column-start: 2;
+  margin: auto;
+}

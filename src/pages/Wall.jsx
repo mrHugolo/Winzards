@@ -31,8 +31,8 @@ export const Wall = () => {
 
   useEffect(() => {
     if(!playerTurn) return
-    document.getElementById(wcss[`playerImg${playerTurn}`]).style.boxShadow = "0 0 0 4px " + players[playerTurn-1].shineColor.split('shine')[1]
-    document.getElementById(wcss[`playerImg${playerTurn == 1 ? 2 : 1}`]).style.boxShadow = null
+    document.getElementById(wcss[`Img${playerTurn}`]).style.boxShadow = "0 0 0 4px " + players[playerTurn-1].shineColor.split('shine')[1]
+    document.getElementById(wcss[`Img${playerTurn == 1 ? 2 : 1}`]).style.boxShadow = null
   }, [playerTurn])
 
   const createBoard = (cards) => {
@@ -228,7 +228,7 @@ export const Wall = () => {
 
   return(
     <div className={css.noSelect}>
-      <PickCharachter cssx={{ css: wcss }} game={{assignCharachter, maxPlayers: 2}}/>
+      <PickCharachter cssx={{ css: wcss }} game={{assignCharachter, minPlayers: 2, maxPlayers: 2}}/>
       <div className={wcss.wrapper}>
         {players.length == 2 && (
           <div className={wcss.info}>

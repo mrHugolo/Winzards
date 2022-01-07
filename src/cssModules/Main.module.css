@@ -12,6 +12,14 @@ body {
   color: 	#999999;
 }
 
+button {
+  font-family: var(--font);
+  cursor: pointer;
+}
+button:hover {
+  opacity: 0.8;
+}
+
 .board {
   border: var(--m) solid transparent;
   padding: var(--m);

@@ -66,7 +66,8 @@ export default function DeckProvider(props) {
 
   const values = {
     deck55,
-    wallDeck
+    wallDeck,
+    shuffle
   };
 
   return <DeckContext.Provider value={values}>{props.children}</DeckContext.Provider>;
