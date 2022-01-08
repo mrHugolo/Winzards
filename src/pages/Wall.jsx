@@ -31,8 +31,8 @@ export const Wall = () => {
 
   useEffect(() => {
     if(!playerTurn) return
-    document.getElementById(wcss[`Img${playerTurn}`]).style.boxShadow = "0 0 0 4px " + players[playerTurn-1].shineColor.split('shine')[1]
-    document.getElementById(wcss[`Img${playerTurn == 1 ? 2 : 1}`]).style.boxShadow = null
+    document.getElementById(wcss[`playerImg${playerTurn}`]).style.boxShadow = "0 0 0 4px " + players[playerTurn-1].shineColor.split('shine')[1]
+    document.getElementById(wcss[`playerImg${playerTurn == 1 ? 2 : 1}`]).style.boxShadow = null
   }, [playerTurn])
 
   const createBoard = (cards) => {

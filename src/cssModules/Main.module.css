@@ -165,6 +165,9 @@ div div.selected {
 .hidden {
   display: none;
 }
+.invisible {
+  visibility: hidden;
+}
 
 .right {
   text-align: right;

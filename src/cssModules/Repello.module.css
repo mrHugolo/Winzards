@@ -39,7 +39,7 @@
 .shape {
   --hw: min(calc(var(--widthR) / 2), calc(var(--heightR) / 2));
   position: absolute;
-  top: calc(1.5 * var(--hw));
+  margin-top: calc(var(--hw)/6);
   height: var(--hw);
   width: var(--hw);
   z-index: 5;
@@ -162,4 +162,14 @@ button.startGame {
 .turn {
   grid-column-start: 2;
   margin: auto;
+  text-align: center;
+  font-size: calc(1em - var(--m));
+}
+
+.arrow {
+  position: absolute;
+  z-index: 10;
+  font-size: min(4vw, 6vh);
+  color: black;  
+  margin: -2.5px;
 }

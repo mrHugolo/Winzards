@@ -6,7 +6,6 @@ import { ShapeContext } from "../contexts/ShapeContext"
 import { findPlayerCard, indexesAround } from "../utils/Utils"
 import { GameOver } from "../utils/GameOver"
 import { CardWithoutValue } from "../components/CardWithoutValue"
-import { Card } from "../components/Card"
 import { PickCharachter } from "../components/PickCharachter"
 
 import css from "../cssModules/Main.module.css"
@@ -14,7 +13,7 @@ import rcss from "../cssModules/Repello.module.css"
 
 export const Repello = () => {
   const { deck55, shuffle } = useContext(DeckContext)
-  const [deck, setDeck] = useState()
+  const [deck, setDeck] = useState([])
   const [shape, setShape] = useState(null)
   const [newRound, setNewRound] = useState(null)
   const [playerTurn, setPlayerTurn] = useState(0)
@@ -48,11 +47,25 @@ export const Repello = () => {
   }
 
   const startGame = () => {
+    setPlayerTracker("firstRound")
     setPlayerTurn(1)
   }
 
   const removeSelectedShape = (c) => {
-    
+    deck.forEach((it, i) => {
+      it.highlighted = null
+    })
+    if (playerTracker == "firstRound") {
+      if(playerTurn == players.length) {
+        setPlayerTracker(null)
+      }
+      if(!repel()) {
+        setPlayerTurn(p => playerTurn == players.length ? 1 : p + 1)
+      } else {
+        highlightRepellables()
+      }
+    }
+    setDeck(deck.slice())
   }
 
   const showPossibleMoves = (card) => {
@@ -70,7 +83,52 @@ export const Repello = () => {
     arr.forEach(it => {
       it.highlighted = "highlighted"
     })
+    setDeck(deck.slice())
     return arr.length > 0
+  }
+
+  const highlightRepellables = () => {
+
+  }
+
+  const repel = () => {
+    let arr = deck.map(c => {
+      if (c.shape.form != "") return c._id
+    }).filter(id => id || id == 0)
+    let isRepelable = false
+    let i = arr.length - 1
+    while(i > 0) {
+      if(arr[i] - arr[i - 1] <= 10) {
+        for (let ii = i - 1; ii >= 0; ii--) {
+          if (arr[i] - arr[ii] <= 10) {
+            let yi = Math.floor(arr[i] / 9)
+            let xi = arr[i] % 9
+            let yii = Math.floor(arr[ii] / 9)
+            let xii = arr[ii] % 9
+            if (Math.abs(xi - xii) <= 1 && Math.abs(yi - yii) <= 1) {
+              let dir = repelDirection(xi-xii, yi-yii)
+              deck[arr[i]].repel = dir
+              deck[arr[ii]].repel = 10 - dir
+              isRepelable = true
+            }
+          } else { break }
+        }
+      }
+      i--
+    }
+    setDeck(deck.slice())
+    return isRepelable
+  }
+
+  const repelDirection = (dx, dy) => {
+    if(dx == -1 && dy == -1) return 1
+    if(dx == 0 && dy == -1) return 2
+    if(dx == 1 && dy == -1) return 3
+    if(dx == -1 && dy == 0) return 4
+    if(dx == 1 && dy == 0) return 6
+    if(dx == -1 && dy == 1) return 7
+    if(dx == 0 && dy == 1) return 8
+    if(dx == 1 && dy == 1) return 9
   }
 
   const assignCharachter = (char) => {
@@ -86,12 +144,22 @@ export const Repello = () => {
     }
   }
 
+  const instructions = () => {
+    switch(turn) {
+      case 0: return "Place your piece"
+      case 1: return "Switch a card"
+      case 2: return "Move your piece one step"
+      case 3: return "Repel touching symbols"
+    }
+  }
+
   return (
     <div className={css.noSelect}>
       <PickCharachter cssx={{ css: rcss }} game={{ startGame, assignCharachter, minPlayers: 2, maxPlayers: 4 }} hide={{hide: 'Frozt'}} />
       <div className={rcss.wrapper}>
-        <div className={rcss.turn}>
-          {players[playerTurn - 1]?.src?.substring(15)?.split('-')[0]}'s turn
+        <div className={`${!playerTurn && css.hidden} ${rcss.turn}`}>
+          <div>{players[playerTurn - 1]?.src?.substring(15)?.split('-')[0]}'s turn</div>
+          <div>{instructions()}</div>
         </div>
         <div className={`${rcss.board} ${css.board}`}>
           {deck?.length == 81 && deck.map((card, i) => (
@@ -99,7 +167,8 @@ export const Repello = () => {
               <CardWithoutValue
                 card={{ card }}
                 shape={{ setShape, shape, removeSelectedShape }}
-                game={{ game: "Repello", showPossibleMoves, newRound, setNewRound, setTurn }}
+                game={{ game: "Repello", showPossibleMoves, newRound, setNewRound, turn, setTurn }}
+                player={{player: players[playerTurn - 1]}}
                 cssx={{ css: rcss }}
               />
             </div>
